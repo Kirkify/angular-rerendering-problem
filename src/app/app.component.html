@@ -1,25 +1,24 @@
 <!--The content below is only a placeholder and can be replaced.-->
-<div style="text-align:center">
+<div class="appContainer">
   <h1>
     Welcome to my problem :(
   </h1>
   <p>
     I need to find a way to stop the re-rendering (video flicker)
   </p>
-</div>
-<ul>
-  <li *ngFor="let connection of connections | async">
-    <div class="container">
-      <video [srcObject]="connection.stream" autoplay muted></video>
-      <div class="messageContainer">
-        <ul>
-          <li *ngFor="let message of connection.messages">
-            {{ message.value }}
-          </li>
-        </ul>
+  <ul>
+    <li *ngFor="let connection of connections | async">
+      <div class="container">
+        <video [srcObject]="connection.stream" autoplay muted></video>
+        <div class="messageContainer">
+          <ul>
+            <li *ngFor="let message of connection.messages">
+              {{ message.value }}
+            </li>
+          </ul>
+        </div>
       </div>
-    </div>
-  </li>
-</ul>
-
+    </li>
+  </ul>
+</div>
 

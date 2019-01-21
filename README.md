@@ -1,4 +1,8 @@
-# Aktest1
+# Angular Rerendering Problem
+
+This is an example project which demonstrates a problem I am experiencing, once you have installed all dependencies `npm install` or `yarn`.  Then served the project `ng serve`. You will notice that the video flickers anytime I update a property of one of the entities in the store.
+
+## Angular CLI
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 7.2.2.
 
