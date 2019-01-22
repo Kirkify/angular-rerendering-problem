@@ -6,6 +6,7 @@ import {ConnectionInterface, createConnection} from './state/connections/connect
 import {MessagesStore} from './state/messages/messages.store';
 import {createMessage} from './state/messages/messages.model';
 import {ID, unshift} from '@datorama/akita';
+import {MessagesQuery} from './state/messages/messages.query';
 
 @Component({
   selector: 'app-root',
@@ -20,23 +21,29 @@ export class AppComponent implements OnInit {
   constructor(
     private query: ConnectionsQuery,
     private connectionsStore: ConnectionsStore,
+    private messagesQuery: MessagesQuery,
     private messagesStore: MessagesStore) {}
 
   ngOnInit(): void {
     // Assign the connection observable
-    this.connections = this.query.selectAllConnections();
+    this.connections = this.query.selectAll();
 
     // Get Stream
     navigator.mediaDevices.getUserMedia({ audio: true, video: true }).then(async (stream) => {
       // Create the first connection
       const connection = createConnection({
-        stream
+        stream,
+        messagesStore: this.messagesStore
       });
       // Add it to the store
       this.connectionsStore.add(connection);
       // Start creating messages
       await this._addMessages(connection.id);
     });
+  }
+
+  getMessagesForConnection(connectionId: ID) {
+    return this.messagesQuery.selectEntity(connectionId);
   }
 
   // Add 10 hello messages to a specific entity in the connection store
@@ -51,14 +58,11 @@ export class AppComponent implements OnInit {
         value: this._sayHelloList[Math.floor(Math.random() * Math.floor(this._sayHelloList.length))]
       });
 
-      // Add it to the message store
-      this.messagesStore.add(message);
-
-      // Now we want to add it to the ID[] list of messages
-      this.connectionsStore.update(connectionId, list => {
+      // Update the messages store by adding the latest message to the connection
+      this.messagesStore.update(connectionId, list => {
         return {
           ...list,
-          messages: unshift(list.messages as ID[], message.id)
+          messages: unshift(list.messages, message)
         };
       });
     }

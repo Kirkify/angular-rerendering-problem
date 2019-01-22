@@ -12,7 +12,7 @@
         <video [srcObject]="connection.stream" autoplay muted></video>
         <div class="messageContainer">
           <ul>
-            <li *ngFor="let message of connection.messages">
+            <li *ngFor="let message of (getMessagesForConnection(connection.id) | async).messages">
               {{ message.value }}
             </li>
           </ul>

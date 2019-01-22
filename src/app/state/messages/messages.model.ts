@@ -1,13 +1,27 @@
-import { ID, guid } from '@datorama/akita';
+import { guid, ID } from '@datorama/akita';
 
 export interface MessageInterface {
-  id: ID;
+  id: ID,
   time: number;
   value: string;
 }
 
+export interface MessagesListInterface {
+  id: ID;
+  messages: MessageInterface[];
+}
+
+export function createNewMessageListForId({
+ id
+}: Partial<MessagesListInterface>): MessagesListInterface {
+  return {
+    id,
+    messages: []
+  };
+}
+
 export function createMessage({
- value = '',
+  value = '',
 }: Partial<MessageInterface>): MessageInterface {
   return {
     id: guid(),

@@ -8,24 +8,7 @@ import {auditTime, map} from 'rxjs/operators';
 
 @Injectable({ providedIn: 'root' })
 export class ConnectionsQuery extends QueryEntity<ConnectionsState, ConnectionInterface> {
-  constructor(protected store: ConnectionsStore, private messagesQuery: MessagesQuery) {
+  constructor(protected store: ConnectionsStore) {
     super(store);
-  }
-
-  selectAllConnections() {
-    return combineLatest(
-      this.selectAll(),
-      this.messagesQuery.selectAll({ asObject: true })
-    ).pipe(
-      auditTime(100),
-      map(([connections, messages]) => {
-        return connections.map(connection => {
-          return {
-            ...connection,
-            messages: (connection.messages as ID[]).map(id => messages[id])
-          };
-        });
-      })
-    );
   }
 }

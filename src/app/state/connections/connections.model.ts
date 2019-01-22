@@ -1,19 +1,28 @@
 import { ID, guid } from '@datorama/akita';
-import { MessageInterface } from '../messages/messages.model';
+import { MessagesStore } from '../messages/messages.store';
+import { createNewMessageListForId } from '../messages/messages.model';
 
 export interface ConnectionInterface {
   id: ID;
   stream: MediaStream;
-  messages: ID[] | MessageInterface[];
+}
+
+interface CreateConnectionInterface {
+  stream: MediaStream;
+  messagesStore: MessagesStore;
 }
 
 export function createConnection({
   stream = null,
-  messages = [],
-}: Partial<ConnectionInterface>): ConnectionInterface {
+  messagesStore,
+}: CreateConnectionInterface): ConnectionInterface {
+  // Generate a uuid
+  const id = guid();
+  // Create a message store for the id
+  messagesStore.add(createNewMessageListForId({ id }));
+  // Return the connection
   return {
-    id: guid(),
-    stream,
-    messages
+    id,
+    stream
   };
 }
