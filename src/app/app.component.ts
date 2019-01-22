@@ -39,12 +39,16 @@ export class AppComponent implements OnInit {
     });
   }
 
+  trackByFunction(index, item: ConnectionInterface) {
+    return item.id;
+  }
+
   // Add 10 hello messages to a specific entity in the connection store
   private async _addMessages(connectionId: ID) {
     // Add 10 messages
-    for (let i = 0; i < 10; i++) {
+    for (let i = 0; i < 100; i++) {
       // Wait 1 before saving each message (Makes seeing the problem easier)
-      await this._sleep(1000);
+      await this._sleep(200);
 
       // Create a new message (By randomly selecting it from the 'hello' list
       const message = createMessage({

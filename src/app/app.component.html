@@ -7,7 +7,7 @@
     I need to find a way to stop the re-rendering (video flicker)
   </p>
   <ul>
-    <li *ngFor="let connection of connections | async">
+    <li *ngFor="let connection of connections | async; trackBy: trackByFunction">
       <div class="container">
         <video [srcObject]="connection.stream" autoplay muted></video>
         <div class="messageContainer">
